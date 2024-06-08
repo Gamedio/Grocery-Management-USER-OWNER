@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Start {
@@ -22,46 +23,115 @@ public class Start {
 
         boolean isProgramOpen = true;
         while (isProgramOpen) {
-            System.out.println("\nAre you an Owner or a User? \n1. Owner \n2. User \n3. Close Program");
-            int userType = input.nextInt();
-            input.nextLine(); // Consume newline
+            int userType = 0;
+            while (true) {
+                System.out.println("\nAre you an Owner or a User? \n1. Owner \n2. User \n3. Close Program");
+                try {
+                    userType = input.nextInt();
+                    input.nextLine(); // Consume newline
+                    if (userType >= 1 && userType <= 3) break;
+                    else System.out.println("Invalid option. Please choose 1, 2, or 3.");
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input. Please enter a number (1, 2, or 3).");
+                    input.next(); // Consume invalid input
+                }
+            }
 
             switch (userType) {
                 case 1:
                     // Owner operations
                     boolean ownerOperations = true;
                     while (ownerOperations) {
-                        System.out.println("\nOwner Options: \n1. Add Product \n2. Restock Product \n3. Delete Product \n4. Show All Products \n5. Back to Main Menu");
-                        int ownerOption = input.nextInt();
-                        input.nextLine(); // Consume newline
+                        int ownerOption = 0;
+                        while (true) {
+                            System.out.println("\nOwner Options: \n1. Add Product \n2. Restock Product \n3. Delete Product \n4. Show All Products \n5. Back to Main Menu");
+                            try {
+                                ownerOption = input.nextInt();
+                                input.nextLine(); // Consume newline
+                                if (ownerOption >= 1 && ownerOption <= 5) break;
+                                else System.out.println("Invalid option. Please choose between 1 and 5.");
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                                input.next(); // Consume invalid input
+                            }
+                        }
 
                         switch (ownerOption) {
                             case 1:
                                 // Add product
-                                System.out.println("Enter product type (1 for Edible, 2 for NonEdible):");
-                                int type = input.nextInt();
-                                input.nextLine(); // Consume newline
+                                int type = 0;
+                                while (true) {
+                                    System.out.println("Enter product type (1 for Edible, 2 for NonEdible):");
+                                    try {
+                                        type = input.nextInt();
+                                        input.nextLine(); // Consume newline
+                                        if (type == 1 || type == 2) break;
+                                        else System.out.println("Invalid option. Please choose 1 or 2.");
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Invalid input. Please enter 1 or 2.");
+                                        input.next(); // Consume invalid input
+                                    }
+                                }
 
                                 System.out.println("Enter product ID:");
-                                String id = input.nextLine();
+                                String id = "";
+                                while (true) {
+                                    id = input.nextLine();
+                                    if (!id.isEmpty()) {
+                                        break;
+                                    } else {
+                                        System.out.println("Product ID cannot be empty. Please enter a valid ID:");
+                                    }
+                                }
+
                                 System.out.println("Enter product name:");
                                 String name = input.nextLine();
                                 System.out.println("Enter product brand:");
                                 String brand = input.nextLine();
-                                System.out.println("Enter product price:");
-                                double price = input.nextDouble();
-                                System.out.println("Enter product quantity:");
-                                int quantity = input.nextInt();
-                                input.nextLine(); // Consume newline
+
+                                double price = 0;
+                                while (true) {
+                                    System.out.println("Enter product price (e.g., 19.99):");
+                                    try {
+                                        price = input.nextDouble();
+                                        input.nextLine(); // Consume newline
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Invalid input. Please enter a valid price.");
+                                        input.next(); // Consume invalid input
+                                    }
+                                }
+
+                                int quantity = 0;
+                                while (true) {
+                                    System.out.println("Enter product quantity (e.g., 50):");
+                                    try {
+                                        quantity = input.nextInt();
+                                        input.nextLine(); // Consume newline
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Invalid input. Please enter a valid quantity.");
+                                        input.next(); // Consume invalid input
+                                    }
+                                }
 
                                 if (type == 1) {
-                                    System.out.println("Enter expiry days:");
-                                    int expiryDays = input.nextInt();
-                                    input.nextLine(); // Consume newline
+                                    int expiryDays = 0;
+                                    while (true) {
+                                        System.out.println("Enter expiry days (e.g., 30):");
+                                        try {
+                                            expiryDays = input.nextInt();
+                                            input.nextLine(); // Consume newline
+                                            break;
+                                        } catch (InputMismatchException e) {
+                                            System.out.println("Invalid input. Please enter a valid number of days.");
+                                            input.next(); // Consume invalid input
+                                        }
+                                    }
                                     Edibles ed = new Edibles(id, name, brand, price, quantity, expiryDays);
                                     shop.insertProduct(ed);
                                 } else {
-                                    System.out.println("Enter material:");
+                                    System.out.println("Enter material (e.g., Plastic):");
                                     String material = input.nextLine();
                                     NonEdibles ned = new NonEdibles(id, name, brand, price, quantity, material);
                                     shop.insertProduct(ned);
@@ -71,9 +141,18 @@ public class Start {
                                 // Restock product
                                 System.out.println("Enter product name to restock:");
                                 String restockName = input.nextLine();
-                                System.out.println("Enter quantity to restock:");
-                                int restockQuantity = input.nextInt();
-                                input.nextLine(); // Consume newline
+                                int restockQuantity = 0;
+                                while (true) {
+                                    System.out.println("Enter quantity to restock (e.g., 20):");
+                                    try {
+                                        restockQuantity = input.nextInt();
+                                        input.nextLine(); // Consume newline
+                                        break;
+                                    } catch (InputMismatchException e) {
+                                        System.out.println("Invalid input. Please enter a valid quantity.");
+                                        input.next(); // Consume invalid input
+                                    }
+                                }
                                 shop.restockProduct(restockName, restockQuantity);
                                 break;
                             case 3:
@@ -99,12 +178,22 @@ public class Start {
                     System.out.println("Enter your name:");
                     String userName = input.nextLine();
                     User user = new User(userName, shop);
-                    
+
                     boolean userOperations = true;
                     while (userOperations) {
-                        System.out.println("\nUser Options: \n1. Add Product to Cart \n2. Remove Product from Cart \n3. Place Order \n4. Show All Products \n5. Back to Main Menu");
-                        int userOption = input.nextInt();
-                        input.nextLine(); // Consume newline
+                        int userOption = 0;
+                        while (true) {
+                            System.out.println("\nUser Options: \n1. Add Product to Cart \n2. Remove Product from Cart \n3. Place Order \n4. Show All Products \n5. Back to Main Menu");
+                            try {
+                                userOption = input.nextInt();
+                                input.nextLine(); // Consume newline
+                                if (userOption >= 1 && userOption <= 5) break;
+                                else System.out.println("Invalid option. Please choose between 1 and 5.");
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input. Please enter a number between 1 and 5.");
+                                input.next(); // Consume invalid input
+                            }
+                        }
 
                         switch (userOption) {
                             case 1:
@@ -142,7 +231,6 @@ public class Start {
                 default:
                     System.out.println("Invalid option. Please try again.");
             }
-        }
-        input.close();
-    }
+        }
+    }
 }

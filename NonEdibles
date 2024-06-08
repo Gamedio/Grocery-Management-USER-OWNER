@@ -1,0 +1,28 @@
+public class NonEdibles extends Product {
+    private String material;
+
+    public NonEdibles() {
+        super();
+    }
+
+    public NonEdibles(String id, String name, String brand, double price, int quantity, String material) {
+        super(id, name, brand, price, quantity);
+        if (material == null || material.isEmpty()) {
+            throw new UnsupportedOperationException("Material not supported yet.");
+        }
+        this.material = material;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", Material=" + material;
+    }
+}

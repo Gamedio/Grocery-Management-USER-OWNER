@@ -1,0 +1,54 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class User {
+    private String userName;
+    private GroceryShop shop;
+    private List<Product> cart;
+
+    public User(String userName, GroceryShop shop) {
+        this.userName = userName;
+        this.shop = shop;
+        this.cart = new ArrayList<>();
+    }
+
+    public synchronized void addProductToCart(String productName) {
+        Product product = shop.searchProduct(productName);
+        if (product != null) {
+            cart.add(product);
+            System.out.println(productName + " added to cart.");
+        } else {
+            System.out.println(productName + " not found in the shop.");
+        }
+    }
+
+    public synchronized void removeProductFromCart(String productName) {
+        Product product = null;
+        for (Product p : cart) {
+            if (p.getName().equalsIgnoreCase(productName)) {
+                product = p;
+                break;
+            }
+        }
+        if (product != null) {
+            cart.remove(product);
+            System.out.println(productName + " removed from cart.");
+        } else {
+            System.out.println(productName + " not found in cart.");
+        }
+    }
+
+    public synchronized void placeOrder() {
+        if (cart.isEmpty()) {
+            System.out.println("Cart is empty. Add products to cart before placing an order.");
+            return;
+        }
+        
+        Receipt receipt = new Receipt(userName);
+        for (Product product : cart) {
+            receipt.addProduct(product, 1); // Assuming quantity 1 for simplicity
+        }
+        receipt.printReceipt();
+        cart.clear();
+    }
+}

@@ -1,0 +1,25 @@
+public class Edibles extends Product {
+    private int expiryDays;
+
+    public Edibles() {
+        super();
+    }
+
+    public Edibles(String id, String name, String brand, double price, int quantity, int expiryDays) {
+        super(id, name, brand, price, quantity);
+        this.expiryDays = expiryDays;
+    }
+
+    public int getExpiryDays() {
+        return expiryDays;
+    }
+
+    public void setExpiryDays(int expiryDays) {
+        this.expiryDays = expiryDays;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", ExpiryDays=" + expiryDays;
+    }
+}

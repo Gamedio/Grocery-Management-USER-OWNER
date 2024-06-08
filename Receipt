@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Receipt {
+    private String userId;
+    private List<Product> products;
+    private double totalPrice;
+    private static final double VAT_RATE = 0.25;
+
+    public Receipt(String userId) {
+        this.userId = userId;
+        this.products = new ArrayList<>();
+        this.totalPrice = 0.0;
+    }
+
+    public void addProduct(Product product, int quantity) {
+        for (int i = 0; i < quantity; i++) {
+            products.add(product);
+            totalPrice += product.getPrice();
+        }
+    }
+
+    private double calculateVAT() {
+        return totalPrice * VAT_RATE;
+    }
+
+    private double calculateFinalPrice() {
+        return totalPrice + calculateVAT();
+    }
+
+    public void printReceipt() {
+        System.out.println("\n===== Receipt =====");
+        System.out.println("User ID: " + userId);
+        System.out.println("-------------------");
+        for (Product product : products) {
+            System.out.println(product.getName() + " - $" + product.getPrice());
+        }
+        System.out.println("-------------------");
+        System.out.println("Total Price: $" + totalPrice);
+        double vat = calculateVAT();
+        System.out.println("VAT (25%): $" + vat);
+        System.out.println("Final Price: $" + calculateFinalPrice());
+        System.out.println("===================");
+    }
+}
+
+

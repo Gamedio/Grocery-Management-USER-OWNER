@@ -1,0 +1,45 @@
+import java.util.ArrayList;
+
+public class GroceryShop {
+    private ArrayList<Product> products;
+
+    public GroceryShop() {
+        products = new ArrayList<>();
+    }
+
+    public boolean insertProduct(Product product) {
+        return products.add(product);
+    }
+
+    public boolean deleteProduct(String productName) {
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                return products.remove(product);
+            }
+        }
+        return false;
+    }
+
+    public Product searchProduct(String productName) {
+        for (Product product : products) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public void showAllProducts() {
+        System.out.println("All Products in the Shop:");
+        for (Product product : products) {
+            System.out.println(product);
+        }
+    }
+
+    public synchronized void restockProduct(String productName, int quantity) {
+        Product product = searchProduct(productName);
+        if (product != null) {
+            product.addStock(quantity);
+        }
+    }
+}
